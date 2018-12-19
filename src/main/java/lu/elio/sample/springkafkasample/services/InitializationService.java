@@ -18,13 +18,13 @@ public class InitializationService {
     @EventListener(ApplicationReadyEvent.class)
     public void init() {
         dynamicKafkaService.registerConsumer("topic1", "group-1", (message) -> {
-            LOGGER.info("Received message for topic1: '{}'", message);
+            LOGGER.info("group-1: Received message for topic1: '{}'", message);
         });
         dynamicKafkaService.registerConsumer("topic2", "group-2", (message) -> {
-            LOGGER.info("Received message for topic2: '{}'", message);
+            LOGGER.info("group-2: Received message for topic2: '{}'", message);
         });
         dynamicKafkaService.registerConsumer("topic3", "group-3", (message) -> {
-            LOGGER.info("Received message for topic3: '{}'", message);
+            LOGGER.info("group-3: Received message for topic3: '{}'", message);
         });
 
         LOGGER.info("Sending simple message to Kafka topics");
@@ -33,6 +33,10 @@ public class InitializationService {
         dynamicKafkaService.sendMessage("topic2", "Hi Welcome to Spring 2.2 For Apache Kafka");
         dynamicKafkaService.sendMessage("topic1", "Hi Welcome to Spring 1.2 For Apache Kafka");
         dynamicKafkaService.sendMessage("topic3", "Hi Welcome to Spring 3.1 For Apache Kafka");
+
+        dynamicKafkaService.registerConsumer("topic3", "group-4", (message) -> {
+            LOGGER.info("group-4: Received message for topic3: '{}'", message);
+        });
     }
 
 }

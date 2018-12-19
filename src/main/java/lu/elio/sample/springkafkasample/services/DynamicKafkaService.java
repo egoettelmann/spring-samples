@@ -31,9 +31,9 @@ public class DynamicKafkaService {
     }
 
     public void registerConsumer(String topic, String groupId, Consumer<String> callback) {
-        // FIXME: groupId should be generated and unique for each consumer
         LOGGER.info("Registering consumer for topic '{}' and group '{}'", topic, groupId);
         ContainerProperties containerProps = new ContainerProperties(topic);
+        containerProps.setGroupId(groupId);
         containerProps.setMessageListener(new MessageListener<String, String>() {
 
             @Override
@@ -51,7 +51,6 @@ public class DynamicKafkaService {
     private ConcurrentMessageListenerContainer<String, String> createContainer(String groupId, ContainerProperties containerProps) {
         Map<String, Object> props = new HashMap<>();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
-        props.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         DefaultKafkaConsumerFactory<String, String> cf = new DefaultKafkaConsumerFactory<>(props);
