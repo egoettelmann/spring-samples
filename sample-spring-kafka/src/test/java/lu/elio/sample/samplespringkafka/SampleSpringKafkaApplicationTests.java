@@ -1,4 +1,4 @@
-package lu.elio.sample.springkafkasample;
+package lu.elio.sample.samplespringkafka;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,7 +7,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class SpringKafkaSampleApplicationTests {
+public class SampleSpringKafkaApplicationTests {
 
 	@Test
 	public void contextLoads() {

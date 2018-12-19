@@ -1,4 +1,4 @@
-package lu.elio.sample.springkafkasample.services;
+package lu.elio.sample.samplespringkafka.services;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;

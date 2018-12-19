@@ -16,7 +16,7 @@
     </properties>
 
     <modules>
-        <module>spring-kafka-sample</module>
+        <module>sample-spring-kafka</module>
     </modules>
 
 </project>

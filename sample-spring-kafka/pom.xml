@@ -8,7 +8,7 @@
 		<artifactId>sample-parent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>spring-kafka-sample</artifactId>
+	<artifactId>sample-spring-kafka</artifactId>
 
     <dependencyManagement>
         <dependencies>

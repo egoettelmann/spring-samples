@@ -1,4 +1,4 @@
-package lu.elio.sample.springkafkasample.config;
+package lu.elio.sample.samplespringkafka.config;
 
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
