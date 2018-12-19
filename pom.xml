@@ -17,6 +17,7 @@
 
     <modules>
         <module>sample-spring-kafka</module>
+        <module>sample-spring-rabbitmq</module>
     </modules>
 
 </project>
