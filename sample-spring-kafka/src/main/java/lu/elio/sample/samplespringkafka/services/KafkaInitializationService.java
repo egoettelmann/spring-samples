@@ -8,9 +8,9 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
 @Service
-public class InitializationService {
+public class KafkaInitializationService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(InitializationService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(KafkaInitializationService.class);
 
     @Autowired
     private DynamicKafkaService dynamicKafkaService;
