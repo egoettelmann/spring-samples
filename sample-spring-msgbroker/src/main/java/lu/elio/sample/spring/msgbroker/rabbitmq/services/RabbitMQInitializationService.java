@@ -35,11 +35,11 @@ public class RabbitMQInitializationService {
         });
 
         LOGGER.info("Sending simple message to RabbitMQ exchanges");
-        rabbitMQBrokerService.sendMessage("exchange1", "Hi Welcome to Spring 1.1 For Apache Kafka");
-        rabbitMQBrokerService.sendMessage("exchange2", "Hi Welcome to Spring 2.1 For Apache Kafka");
-        rabbitMQBrokerService.sendMessage("exchange2", "Hi Welcome to Spring 2.2 For Apache Kafka");
-        rabbitMQBrokerService.sendMessage("exchange1", "Hi Welcome to Spring 1.2 For Apache Kafka");
-        rabbitMQBrokerService.sendMessage("exchange3", "Hi Welcome to Spring 3.1 For Apache Kafka");
+        rabbitMQBrokerService.sendMessage("exchange1", "Hi Welcome to Spring 1.1 For RabbitMQ");
+        rabbitMQBrokerService.sendMessage("exchange2", "Hi Welcome to Spring 2.1 For RabbitMQ");
+        rabbitMQBrokerService.sendMessage("exchange2", "Hi Welcome to Spring 2.2 For RabbitMQ");
+        rabbitMQBrokerService.sendMessage("exchange1", "Hi Welcome to Spring 1.2 For RabbitMQ");
+        rabbitMQBrokerService.sendMessage("exchange3", "Hi Welcome to Spring 3.1 For RabbitMQ");
 
         rabbitMQBrokerService.registerConsumer("exchange3", "route-4", (message) -> {
             LOGGER.info("route-4: Received message for exchange3: '{}'", message);

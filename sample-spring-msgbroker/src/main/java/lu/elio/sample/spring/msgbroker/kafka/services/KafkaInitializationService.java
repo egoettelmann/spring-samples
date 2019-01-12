@@ -14,8 +14,12 @@ public class KafkaInitializationService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(KafkaInitializationService.class);
 
-    @Autowired
     private KafkaBrokerService kafkaBrokerService;
+
+    @Autowired
+    public KafkaInitializationService(KafkaBrokerService kafkaBrokerService) {
+        this.kafkaBrokerService = kafkaBrokerService;
+    }
 
     @EventListener(ApplicationReadyEvent.class)
     public void init() {
