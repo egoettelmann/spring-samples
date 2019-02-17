@@ -16,6 +16,7 @@
     </properties>
 
     <modules>
+        <module>sample-spring-data</module>
         <module>sample-spring-msgbroker</module>
         <module>sample-spring-rest</module>
     </modules>
