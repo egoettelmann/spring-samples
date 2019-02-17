@@ -22,7 +22,7 @@ import java.util.List;
 @SpringBootTest
 @ActiveProfiles("h2mem")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
-public class SampleSprintDataH2Test {
+public class H2AllRepositoryTest {
 
     @Autowired
     private IParentRepository parentRepository;
@@ -45,7 +45,34 @@ public class SampleSprintDataH2Test {
     }
 
     @Test
-    public void testSaveWithChildrenCascadeAll() {
+    public void testSaveWithChildrenCascadeAllFails() {
+        Parent parent1 = buildParent("Parent 1");
+        parent1.setChildren1(buildChildren1(null, "Child 1.1"));
+        parentRepository.save(parent1);
+
+        Parent parent2 = buildParent("Parent 2");
+        parent2.setChildren1(buildChildren1(null, "Child 2.1", "Child 2.2"));
+        parentRepository.save(parent2);
+
+        Parent parent3 = buildParent("Parent 3");
+        parent3.setChildren1(buildChildren1(null, "Child 3.1", "Child 3.2", "Child 3.3"));
+        parentRepository.save(parent3);
+
+        List<Parent> parents = parentRepository.findAll();
+        List<Child1> allChildren1 = child1Repository.findAll();
+        List<Child1> parent1Children1 = child1Repository.findAllByParentId(parent1.getId());
+        List<Child1> parent2Children1 = child1Repository.findAllByParentId(parent2.getId());
+        List<Child1> parent3Children1 = child1Repository.findAllByParentId(parent3.getId());
+
+        Assert.assertEquals("Wrong size of parent elements", 3, parents.size());
+        Assert.assertEquals("Wrong size of child elements", 6, allChildren1.size());
+        Assert.assertEquals("Children should not be linked to parent 1", 0, parent1Children1.size());
+        Assert.assertEquals("Children should not be linked to parent 2", 0, parent2Children1.size());
+        Assert.assertEquals("Children should not be linked to parent 3", 0, parent3Children1.size());
+    }
+
+    @Test
+    public void testSaveWithChildrenCascadeAllSuccess() {
         Parent parent1 = buildParent("Parent 1");
         parent1.setChildren1(buildChildren1(parent1, "Child 1.1"));
         parentRepository.save(parent1);
