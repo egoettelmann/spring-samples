@@ -22,31 +22,35 @@ public class Child2 {
         return id;
     }
 
-    public void setId(final Long id) {
+    public Child2 setId(final Long id) {
         this.id = id;
+        return this;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(final String name) {
+    public Child2 setName(final String name) {
         this.name = name;
+        return this;
     }
 
     public Parent getParent() {
         return parent;
     }
 
-    public void setParent(final Parent parent) {
+    public Child2 setParent(final Parent parent) {
         this.parent = parent;
+        return this;
     }
 
     public Long getVersion() {
         return version;
     }
 
-    public void setVersion(final Long version) {
+    public Child2 setVersion(final Long version) {
         this.version = version;
+        return this;
     }
 }

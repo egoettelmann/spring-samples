@@ -1,10 +1,15 @@
 package lu.elio.sample.spring.data.services;
 
+import lu.elio.sample.spring.data.entities.Parent;
 import lu.elio.sample.spring.data.repositories.IChild1Repository;
 import lu.elio.sample.spring.data.repositories.IChild2Repository;
 import lu.elio.sample.spring.data.repositories.IParentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The type Parent repository service.
@@ -35,13 +40,39 @@ public class SampleService {
      * @param child2Repository the child 2 repository
      */
     @Autowired
-    public SampleService(final IParentRepository parentRepository,
-                         final IChild1Repository child1Repository,
-                         final IChild2Repository child2Repository
+    public SampleService(
+            final IParentRepository parentRepository,
+            final IChild1Repository child1Repository,
+            final IChild2Repository child2Repository
     ) {
         this.parentRepository = parentRepository;
         this.child1Repository = child1Repository;
         this.child2Repository = child2Repository;
+    }
+
+    public List<Parent> saveAllInBatch(List<Parent> parents) {
+        return parentRepository.saveAll(parents);
+    }
+
+    public List<Parent> saveAllOneByOne(List<Parent> parents) {
+        List<Parent> savedParents = new ArrayList<>();
+        for (Parent parent : parents) {
+            savedParents.add(
+                    parentRepository.save(parent)
+            );
+        }
+        return savedParents;
+    }
+
+    @Transactional
+    public List<Parent> saveAllOneByOneInTransaction(List<Parent> parents) {
+        List<Parent> savedParents = new ArrayList<>();
+        for (Parent parent : parents) {
+            savedParents.add(
+                    parentRepository.save(parent)
+            );
+        }
+        return savedParents;
     }
 
 }

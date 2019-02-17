@@ -22,7 +22,7 @@ import java.util.List;
 @SpringBootTest
 @ActiveProfiles("h2mem")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
-public class H2AllRepositoryTest {
+public class H2RepositoryTest {
 
     @Autowired
     private IParentRepository parentRepository;
@@ -34,7 +34,7 @@ public class H2AllRepositoryTest {
     private IChild2Repository child2Repository;
 
     @Test
-    public void testCreateParent() {
+    public void testSaveParent() {
         parentRepository.save(buildParent("Parent 1"));
         parentRepository.save(buildParent("Parent 2"));
         parentRepository.save(buildParent("Parent 3"));
@@ -45,7 +45,7 @@ public class H2AllRepositoryTest {
     }
 
     @Test
-    public void testSaveWithChildrenCascadeAllFails() {
+    public void testSaveCascadeAllChildrenNotLinkedToParent() {
         Parent parent1 = buildParent("Parent 1");
         parent1.setChildren1(buildChildren1(null, "Child 1.1"));
         parentRepository.save(parent1);
@@ -72,7 +72,7 @@ public class H2AllRepositoryTest {
     }
 
     @Test
-    public void testSaveWithChildrenCascadeAllSuccess() {
+    public void testSaveCascadeAllChildrenLinkedToParent() {
         Parent parent1 = buildParent("Parent 1");
         parent1.setChildren1(buildChildren1(parent1, "Child 1.1"));
         parentRepository.save(parent1);
@@ -99,7 +99,7 @@ public class H2AllRepositoryTest {
     }
 
     @Test
-    public void testSaveWithChildrenNoCascadeFails() {
+    public void testSaveNoCascadeChildrenUnsaved() {
         Parent parent1 = buildParent("Parent 1");
         parent1.setChildren2(buildChildren2(parent1, "Child 1.1"));
         parentRepository.save(parent1);
@@ -120,7 +120,7 @@ public class H2AllRepositoryTest {
     }
 
     @Test
-    public void testSaveWithChildrenNoCascadeSuccess() {
+    public void testSaveNoCascadeChildrenSaved() {
         Parent parent1 = buildParent("Parent 1");
         parent1.setChildren2(buildChildren2(parent1, "Child 1.1"));
         parentRepository.save(parent1);
