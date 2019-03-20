@@ -1,5 +1,6 @@
 package lu.elio.sample.spring.msgbroker.activemq.services;
 
+import lu.elio.sample.spring.msgbroker.core.IMsgBrokerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ import java.util.function.Consumer;
 
 @Profile("activemq")
 @Service
-public class ActiveMQBrokerService {
+public class ActiveMQBrokerService implements IMsgBrokerService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ActiveMQBrokerService.class);
 
@@ -33,12 +34,14 @@ public class ActiveMQBrokerService {
         this.containerFactory = containerFactory;
     }
 
+    @Override
     public void sendMessage(String topic, String value) {
         LOGGER.info("Sending message on topic '{}'", topic);
         jmsTemplate.convertAndSend(topic, value);
     }
 
-    public void registerConsumer(String queueName, Consumer<String> callback) {
+    @Override
+    public void registerConsumer(String queueName, String groupId, Consumer<String> callback) {
         MessageListener messageListener = new MessageListener() {
             @Override
             public void onMessage(Message message) {

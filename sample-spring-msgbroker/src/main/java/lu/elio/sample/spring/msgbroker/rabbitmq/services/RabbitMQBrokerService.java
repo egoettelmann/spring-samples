@@ -1,5 +1,6 @@
 package lu.elio.sample.spring.msgbroker.rabbitmq.services;
 
+import lu.elio.sample.spring.msgbroker.core.IMsgBrokerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.*;
@@ -15,9 +16,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.function.Consumer;
 
-@Profile("rabbitmq")
 @Service
-public class RabbitMQBrokerService {
+@Profile("rabbitmq")
+public class RabbitMQBrokerService implements IMsgBrokerService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RabbitMQBrokerService.class);
 
