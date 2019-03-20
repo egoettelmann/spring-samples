@@ -1,6 +1,11 @@
-import * as React from "react";
+import * as React from 'react';
+import { User } from '../models/User';
 
-export default class SampleComponent extends React.Component<{}> {
+interface SampleProps {
+  user?: User;
+}
+
+export default class SampleComponent extends React.Component<SampleProps, any> {
 
   private readonly imgPath;
 
@@ -17,11 +22,12 @@ export default class SampleComponent extends React.Component<{}> {
   render() {
     return (
       <div>
-        <h2>A Simple React Component with Typescript</h2>
+        <h2>A Simple React Component with Typescript {this.props.user ? this.props.user.username : ''}</h2>
         <div>
-          <img src={this.imgPath} alt="Random image" />
+          <img src={this.imgPath} alt="Random image"/>
         </div>
-        <p>I am a component which shows a random image from RoboHash. For more info on RoboHash, please visit <a href="https://robohash.org">https://robohash.org</a></p>
+        <p>I am a component which shows a random image from RoboHash. For more info on RoboHash, please visit <a
+          href="https://robohash.org">https://robohash.org</a></p>
       </div>
     );
   }
