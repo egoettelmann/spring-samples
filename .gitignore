@@ -2,5 +2,5 @@
 *.iml
 
 target
-build
+dist
 node_modules
