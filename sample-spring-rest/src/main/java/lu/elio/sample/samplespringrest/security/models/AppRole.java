@@ -1,36 +1,74 @@
 package lu.elio.sample.samplespringrest.security.models;
 
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 
-public enum AppRole {
-    SAMPLE_ACTION_1,
-    SAMPLE_ACTION_2,
-    SAMPLE_ACTION_3;
+import java.util.Arrays;
+import java.util.List;
+
+public enum AppRole implements GrantedAuthority {
+    SAMPLE_ACTION_1("Sample Action 1"),
+    SAMPLE_ACTION_2("Sample Action 2"),
+    SAMPLE_ACTION_3("Sample Action 3");
 
     public static final String ROLE_PREFIX = "ROLE_";
 
-    public GrantedAuthority buildAuthority() {
-        return new SimpleGrantedAuthority(this.getRole());
+    /**
+     * The description of the role
+     */
+    private String description;
+
+    /**
+     * Instantiates a new AppRole.
+     *
+     * @param description the description
+     */
+    AppRole(String description) {
+        this.description = description;
     }
 
-    public String getRole() {
-        return ROLE_PREFIX + this.name();
+    @Override
+    public String getAuthority() {
+        return ROLE_PREFIX + name();
     }
 
-    public boolean isAllowed(User user) {
-        return user.getAuthorities().stream()
-                .anyMatch(authority -> authority.getAuthority().equals(this.getRole()));
+    @Override
+    public String toString() {
+        return getAuthority();
     }
 
-    public static AppRole resolveFromAuthority(GrantedAuthority authority) {
-        for (AppRole appRole : AppRole.values()) {
-            if (appRole.getRole().equals(authority.getAuthority())) {
-                return appRole;
-            }
-        }
-        return null;
+    /**
+     * Checks if a role is allowed for a user.
+     *
+     * @param userDetails the user details
+     * @return true if the user has the role, false otherwise
+     */
+    public boolean isAllowed(IAppUserDetails userDetails) {
+        return userDetails.getRoles().contains(getAuthority());
+    }
+
+    /**
+     * All roles for Admin users.
+     *
+     * @return the admin user's roles
+     */
+    public static List<AppRole> adminRoles() {
+        return Arrays.asList(
+                SAMPLE_ACTION_1,
+                SAMPLE_ACTION_2,
+                SAMPLE_ACTION_3
+        );
+    }
+
+    /**
+     * All roles for Default users.
+     *
+     * @return the default user's roles
+     */
+    public static List<AppRole> defaultRoles() {
+        return Arrays.asList(
+                SAMPLE_ACTION_1,
+                SAMPLE_ACTION_2
+        );
     }
 
 }
