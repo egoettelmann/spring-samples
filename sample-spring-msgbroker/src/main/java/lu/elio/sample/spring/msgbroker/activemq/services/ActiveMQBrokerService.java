@@ -1,6 +1,7 @@
 package lu.elio.sample.spring.msgbroker.activemq.services;
 
 import lu.elio.sample.spring.msgbroker.core.IMsgBrokerService;
+import org.apache.activemq.command.ActiveMQTextMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +48,12 @@ public class ActiveMQBrokerService implements IMsgBrokerService {
             public void onMessage(Message message) {
                 LOGGER.info("Received message in queueName '{}'", queueName);
                 try {
-                    callback.accept(message.getBody(String.class));
+                    if (message instanceof ActiveMQTextMessage) {
+                        ActiveMQTextMessage amqMessage = (ActiveMQTextMessage) message;
+                        callback.accept(amqMessage.getText());
+                    } else {
+                        throw new JMSException("Unsupported message type");
+                    }
                 } catch (JMSException e) {
                     LOGGER.error("Impossible to read message body");
                 }
@@ -61,7 +67,7 @@ public class ActiveMQBrokerService implements IMsgBrokerService {
         listenerEndpoint.setMessageListener(listener);
         listenerEndpoint.setDestination(queueName);
         DefaultMessageListenerContainer container = containerFactory.createListenerContainer(listenerEndpoint);
-        container.setMessageListener(listener);
+        container.afterPropertiesSet();
         container.start();
     }
 

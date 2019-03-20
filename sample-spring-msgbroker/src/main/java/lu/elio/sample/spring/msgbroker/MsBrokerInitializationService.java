@@ -33,7 +33,7 @@ public class MsBrokerInitializationService {
             LOGGER.info("route-3: Received message for exchange3: '{}'", message);
         });
 
-        LOGGER.info("Sending simple message to RabbitMQ exchanges");
+        LOGGER.info("Sending simple message to MsgBroker exchanges");
         msgBrokerService.sendMessage("exchange1", "Hi Welcome to Spring 1.1");
         msgBrokerService.sendMessage("exchange2", "Hi Welcome to Spring 2.1");
         msgBrokerService.sendMessage("exchange2", "Hi Welcome to Spring 2.2");

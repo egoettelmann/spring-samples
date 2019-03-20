@@ -19,7 +19,7 @@ public class ActiveMQConfig {
     @Bean
     public ConnectionFactory connectionFactory(){
         ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory();
-        connectionFactory.setBrokerURL("tcp://MBP-de-Elio:61616");
+        connectionFactory.setBrokerURL("tcp://localhost:61616");
         connectionFactory.setTrustedPackages(Arrays.asList("lu.elio.sample.spring.msgbroker"));
         return connectionFactory;
     }
@@ -29,13 +29,15 @@ public class ActiveMQConfig {
         JmsTemplate template = new JmsTemplate();
         template.setConnectionFactory(connectionFactory());
         template.setDefaultDestinationName(DEFAULT_QUEUE);
+        template.setPubSubDomain(true);
         return template;
     }
 
     @Bean
-    public DefaultJmsListenerContainerFactory containerFactory(ConnectionFactory connectionFactory) {
+    public DefaultJmsListenerContainerFactory containerFactory() {
         DefaultJmsListenerContainerFactory containerFactory = new DefaultJmsListenerContainerFactory();
-        containerFactory.setConnectionFactory(connectionFactory);
+        containerFactory.setConnectionFactory(connectionFactory());
+        containerFactory.setPubSubDomain(true);
         return containerFactory;
     }
 
