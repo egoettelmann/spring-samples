@@ -1,14 +1,14 @@
-const path = require("path");
+const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const config = {
-    entry: ["./src/app.tsx"],
+    entry: ['./src/app.tsx'],
     output: {
-        path: path.resolve(__dirname, "dist"),
-        filename: "bundle.js"
+        path: path.resolve(__dirname, 'dist'),
+        filename: 'bundle.js'
     },
     resolve: {
-        extensions: [".ts", ".tsx", ".js"]
+        extensions: ['.ts', '.tsx', '.js']
     },
     plugins: [
         new HtmlWebpackPlugin({
@@ -20,18 +20,22 @@ const config = {
             {
                 test: /\.tsx?$/,
                 exclude: /node_modules/,
-                use: ["ts-loader"]
+                use: ['ts-loader']
             },
             {
                 test: /\.scss$/,
                 exclude: /node_modules/,
                 use: [
-                    "style-loader", // creates style nodes from JS strings
-                    "css-loader", // translates CSS into CommonJS
-                    "sass-loader" // compiles Sass to CSS, using Node Sass by default
+                    'style-loader', // creates style nodes from JS strings
+                    'css-loader', // translates CSS into CommonJS
+                    'sass-loader' // compiles Sass to CSS, using Node Sass by default
                 ]
             }
         ]
+    },
+    devServer: {
+        contentBase: path.join(__dirname, 'dist'),
+        port: 4200
     }
 };
 
