@@ -19,6 +19,7 @@
         <module>sample-spring-data</module>
         <module>sample-spring-msgbroker</module>
         <module>sample-spring-rest</module>
+        <module>sample-spring-react</module>
     </modules>
 
 </project>
