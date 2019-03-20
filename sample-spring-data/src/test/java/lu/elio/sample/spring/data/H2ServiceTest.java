@@ -97,6 +97,7 @@ public class H2ServiceTest {
         } catch (ObjectOptimisticLockingFailureException e) {
             List<Parent> parents = parentRepository.findAll();
             Assert.assertEquals("Specifying a wrong version should prevent update of last element", 1, parents.size());
+            Assert.assertEquals("Second element update should have failed", "Parent 1", parents.get(0).getName());
             return;
         }
         Assert.fail("ObjectOptimisticLockingFailureException should be thrown");
@@ -113,6 +114,23 @@ public class H2ServiceTest {
         } catch (ObjectOptimisticLockingFailureException e) {
             List<Parent> parents = parentRepository.findAll();
             Assert.assertEquals("Specifying a wrong version should prevent update of all elements", 0, parents.size());
+            return;
+        }
+        Assert.fail("ObjectOptimisticLockingFailureException should be thrown");
+    }
+
+    @Test
+    public void testSaveAllTransactionalIncompatibleSameIdWithWrongVersion() {
+        try {
+            sampleService.saveAllTransactionalIncompatible(Arrays.asList(
+                    buildParent("Parent 1").setId(1L).setVersion(0L),
+                    buildParent("Parent 2").setId(1L).setVersion(1L),
+                    buildParent("Parent 3")
+            ));
+        } catch (ObjectOptimisticLockingFailureException e) {
+            List<Parent> parents = parentRepository.findAll();
+            Assert.assertEquals("Specifying a wrong version should prevent update of last element", 1, parents.size());
+            Assert.assertEquals("Second element update should have failed", "Parent 1", parents.get(0).getName());
             return;
         }
         Assert.fail("ObjectOptimisticLockingFailureException should be thrown");

@@ -64,15 +64,13 @@ public class SampleService {
         return savedParents;
     }
 
-    @Transactional
+    public List<Parent> saveAllTransactionalIncompatible(List<Parent> parents) {
+        return saveAllOneByOneInTransaction(parents);
+    }
+
+    @Transactional(Transactional.TxType.MANDATORY)
     public List<Parent> saveAllOneByOneInTransaction(List<Parent> parents) {
-        List<Parent> savedParents = new ArrayList<>();
-        for (Parent parent : parents) {
-            savedParents.add(
-                    parentRepository.save(parent)
-            );
-        }
-        return savedParents;
+        return saveAllOneByOne(parents);
     }
 
 }
