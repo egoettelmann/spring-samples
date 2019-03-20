@@ -24,6 +24,11 @@ export default class LoginComponent extends React.Component<any, any> {
     fetch('http://localhost:8081/api/login', {
       method: 'POST',
       body: request
+    }).then(res => {
+      if (!res.ok) {
+        throw Error('Error: ' + res.status);
+      }
+      return;
     }).then(() => {
       this.setState({
         loggedIn: true

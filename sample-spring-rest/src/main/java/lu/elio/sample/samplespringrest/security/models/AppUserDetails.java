@@ -2,9 +2,11 @@ package lu.elio.sample.samplespringrest.security.models;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -48,11 +50,11 @@ public class AppUserDetails extends User implements IAppUserDetails {
                 || SecurityContextHolder.getContext().getAuthentication() == null
                 || SecurityContextHolder.getContext().getAuthentication().getPrincipal() == null
         ) {
-            throw new AccessDeniedException("No user principal found");
+            throw new UsernameNotFoundException("No user principal found");
         }
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (!(principal instanceof AppUserDetails)) {
-            throw new AccessDeniedException("Principal instance does not match");
+            throw new UsernameNotFoundException("Principal instance does not match");
         }
         return (AppUserDetails) principal;
     }
