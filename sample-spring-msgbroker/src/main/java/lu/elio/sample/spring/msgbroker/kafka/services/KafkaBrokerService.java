@@ -1,5 +1,6 @@
 package lu.elio.sample.spring.msgbroker.kafka.services;
 
+import lu.elio.sample.spring.msgbroker.core.IMsgBrokerService;
 import lu.elio.sample.spring.msgbroker.kafka.config.properties.KafkaProperties;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -19,9 +20,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 
-@Profile("kafka")
 @Service
-public class KafkaBrokerService {
+@Profile("kafka")
+public class KafkaBrokerService implements IMsgBrokerService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(KafkaBrokerService.class);
 
@@ -54,7 +55,6 @@ public class KafkaBrokerService {
 
         });
         ConcurrentMessageListenerContainer<String, String> container = createContainer(groupId, containerProps);
-        //container.setBeanName("testAuto");
         container.start();
     }
 
