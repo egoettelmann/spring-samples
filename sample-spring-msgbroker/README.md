@@ -23,3 +23,19 @@ rabbitmq-server start
 ```
 
 Then, simply start the main application with the `rabbitmq` Spring profile.
+
+Stop it with:
+```
+rabbitmqctl stop
+```
+
+
+## ActiveMQ
+
+Before starting the app, ActiveMQ needs to be started:
+
+```
+activemq start
+```
+
+Then, simply start the main application with the 'activemq' Spring profile.
