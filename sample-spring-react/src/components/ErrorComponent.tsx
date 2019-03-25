@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { RestError } from '../models/RestError';
+import { IRestError } from '@sample-spring-react/dtos';
 
 interface ErrorProps {
-  error: RestError;
+  error: IRestError;
 }
 
 export default class ErrorComponent extends React.Component<ErrorProps, any> {

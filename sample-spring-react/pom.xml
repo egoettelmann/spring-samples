@@ -10,4 +10,44 @@
     </parent>
     <artifactId>sample-spring-react</artifactId>
 
+    <properties>
+        <typescript-generator.version>2.12.476</typescript-generator.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>lu.elio.sample</groupId>
+            <artifactId>sample-spring-rest</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>cz.habarta.typescript-generator</groupId>
+                <artifactId>typescript-generator-maven-plugin</artifactId>
+                <version>${typescript-generator.version}</version>
+                <executions>
+                    <execution>
+                        <id>generate</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <phase>generate-sources</phase>
+                    </execution>
+                </executions>
+                <configuration>
+                    <jsonLibrary>jackson2</jsonLibrary>
+                    <classPatterns>
+                        <classPattern>lu.elio.sample.samplespringrest.dtos.*</classPattern>
+                        <classPattern>lu.elio.sample.samplespringrest.dtos.**.*</classPattern>
+                    </classPatterns>
+                    <outputFile>ts-gen/dtos.d.ts</outputFile>
+                    <outputKind>module</outputKind>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>

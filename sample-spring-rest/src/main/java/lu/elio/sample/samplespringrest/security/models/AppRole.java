@@ -1,5 +1,6 @@
 package lu.elio.sample.samplespringrest.security.models;
 
+import lu.elio.sample.samplespringrest.dtos.IAppUserDetails;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Arrays;

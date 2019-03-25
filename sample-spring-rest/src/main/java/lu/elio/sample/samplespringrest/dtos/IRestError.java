@@ -1,4 +1,4 @@
-package lu.elio.sample.samplespringrest.errorhandling.models;
+package lu.elio.sample.samplespringrest.dtos;
 
 import java.util.Map;
 

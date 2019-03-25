@@ -1,8 +1,7 @@
 package lu.elio.sample.samplespringrest.security.models;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.AuthenticationException;
+import lu.elio.sample.samplespringrest.dtos.IAppUserDetails;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;

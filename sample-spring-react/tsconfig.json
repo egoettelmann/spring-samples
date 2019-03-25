@@ -1,8 +1,14 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "target": "es6",
     "jsx": "react",
-    "module": "commonjs"
+    "module": "commonjs",
+    "paths": {
+      "@sample-spring-react/*": [
+        "ts-gen/*"
+      ]
+    }
   },
   "exclude": [
     "node_modules"

@@ -4,11 +4,11 @@ import LoginComponent from './LoginComponent';
 import { User } from '../models/User';
 import axios from 'axios';
 import ErrorComponent from './ErrorComponent';
-import { RestError } from '../models/RestError';
+import { IRestError } from '@sample-spring-react/dtos';
 
 interface AppState {
   user?: User;
-  error?: RestError;
+  error?: IRestError;
 }
 
 export default class AppComponent extends React.Component<any, AppState> {

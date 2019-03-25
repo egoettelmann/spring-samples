@@ -1,6 +1,7 @@
 package lu.elio.sample.samplespringrest.errorhandling.models;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import lu.elio.sample.samplespringrest.dtos.IRestError;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

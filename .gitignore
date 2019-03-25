@@ -2,5 +2,6 @@
 *.iml
 
 target
+ts-gen
 dist
 node_modules
