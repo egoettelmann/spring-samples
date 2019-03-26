@@ -1,9 +1,9 @@
 import * as React from 'react';
-import axios from 'axios';
 import { User } from '../models/User';
+import api from '../services/api';
 
 interface LoginProps {
-  onChange?: (user?: User) => void
+  onChange?: (user?: User) => void;
 }
 
 interface LoginState extends User {
@@ -27,23 +27,11 @@ export default class LoginComponent extends React.Component<LoginProps, LoginSta
     this.setState(newState);
   };
 
-  logout = () => {
-    axios.post('http://localhost:8081/api/logout')
-      .then(() => {
-        this.setState({
-          loggedIn: false
-        });
-        this.notify(false);
-      }).catch((err) => {
-        console.log('Error:', err);
-      });
-  };
-
   tryLogin = () => {
     const request = new URLSearchParams();
     request.append('username', this.state.username);
     request.append('password', this.state.password);
-    axios.post('http://localhost:8081/api/login', request)
+    api.post('/login', request)
       .then(() => {
         this.setState({
           loggedIn: true
@@ -85,7 +73,7 @@ export default class LoginComponent extends React.Component<LoginProps, LoginSta
         </form>
       );
     } else {
-      return <button onClick={this.logout}>Logout</button>
+      return <br/>
     }
   }
 }

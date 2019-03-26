@@ -16,10 +16,14 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+import org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Configuration
 public class RestSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -77,7 +81,8 @@ public class RestSecurityConfig extends WebSecurityConfigurerAdapter {
 
         // Logout
         http.logout()
-                .logoutUrl("/api/logout");
+                .logoutUrl("/api/logout")
+                .logoutSuccessHandler(logoutSuccessHandler());
 
         // Enabling CORS
         http.cors();
@@ -145,6 +150,21 @@ public class RestSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     /**
+     * The logout success handler.
+     *
+     * @return the logout success handler
+     */
+    @Bean
+    public LogoutSuccessHandler logoutSuccessHandler() {
+        return new SimpleUrlLogoutSuccessHandler() {
+            @Override
+            public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+                LOGGER.info("Logout successful");
+            }
+        };
+    }
+
+    /**
      * Configures the authentication manager.
      * Defines the authentication provider to use.
      *
@@ -152,6 +172,7 @@ public class RestSecurityConfig extends WebSecurityConfigurerAdapter {
      * @throws Exception configuration exception
      */
     @Override
+
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(authenticationProvider);
         auth.eraseCredentials(true);
