@@ -1,11 +1,10 @@
 import * as React from 'react';
 import { IAppUserDetails } from '@sample-spring-react/dtos';
 import api from '../services/api';
-import { User } from '../models/User';
 
 interface SampleProps {
     user?: IAppUserDetails;
-    onChange?: (user?: User) => void;
+    onLogout?: () => void;
 }
 
 export default class MainComponent extends React.Component<SampleProps, any> {
@@ -20,24 +19,13 @@ export default class MainComponent extends React.Component<SampleProps, any> {
     logout = () => {
         api.post('/logout')
             .then(() => {
-                this.notify(false);
-                console.log('ok');
-            }).catch((err) => {
-            console.log('Error:', err);
-        });
-    };
-
-    notify = (loggedIn: boolean) => {
-        if (this.props.onChange) {
-            let user;
-            if (loggedIn) {
-                user = {
-                    username: this.state.username,
-                    password: this.state.password
-                };
-            }
-            this.props.onChange(user);
-        }
+                if (this.props.onLogout) {
+                    this.props.onLogout();
+                }
+            })
+            .catch((err) => {
+                console.log('Error:', err);
+            });
     };
 
     generateLogoPath = () => {

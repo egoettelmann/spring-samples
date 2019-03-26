@@ -2,24 +2,33 @@ import * as React from 'react';
 import { IRestError } from '@sample-spring-react/dtos';
 
 interface ErrorProps {
-  error: IRestError;
+    error: IRestError;
 }
 
 export default class ErrorComponent extends React.Component<ErrorProps, any> {
 
-  constructor(props) {
-    super(props);
-  }
+    style = {
+        marginTop: '1rem',
+        padding: '.5rem',
+        color: '#721c24',
+        backgroundColor: '#f8d7da',
+        border: '1px solid #f5c6cb',
+        borderRadius: '.5rem'
+    };
 
-  render() {
-    if (this.props.error) {
-      return (
-        <div style={{ color: 'red' }}>
-          {this.props.error.code}: {this.props.error.translationKey}
-        </div>
-      );
+    constructor(props) {
+        super(props);
     }
-    return <br/>;
-  }
+
+    render() {
+        if (this.props.error) {
+            return (
+                <div style={ this.style }>
+                    {this.props.error.code}: {this.props.error.translationKey}
+                </div>
+            );
+        }
+        return <br/>;
+    }
 
 }

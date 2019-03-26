@@ -1,79 +1,62 @@
 import * as React from 'react';
-import { User } from '../models/User';
 import api from '../services/api';
 
 interface LoginProps {
-  onChange?: (user?: User) => void;
+    onLogin?: () => void;
 }
 
-interface LoginState extends User {
-  loggedIn: boolean;
+interface LoginState {
+    username?: string;
+    password?: string;
 }
 
 export default class LoginComponent extends React.Component<LoginProps, LoginState> {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      username: null,
-      password: null,
-      loggedIn: null
-    };
-  }
-
-  formChange = (event) => {
-    const newState = {};
-    newState[event.target.name] = event.target.value;
-    this.setState(newState);
-  };
-
-  tryLogin = () => {
-    const request = new URLSearchParams();
-    request.append('username', this.state.username);
-    request.append('password', this.state.password);
-    api.post('/login', request)
-      .then(() => {
-        this.setState({
-          loggedIn: true
-        });
-        this.notify(true);
-      }).catch((err) => {
-        console.log('Error:', err);
-      });
-    event.preventDefault();
-  };
-
-  notify = (loggedIn: boolean) => {
-    if (this.props.onChange) {
-      let user;
-      if (loggedIn) {
-        user = {
-          username: this.state.username,
-          password: this.state.password
+    constructor(props) {
+        super(props);
+        this.state = {
+            username: null,
+            password: null
         };
-      }
-      this.props.onChange(user);
     }
-  };
 
-  render() {
-    if (!this.state.loggedIn) {
-      return (
-        <form onSubmit={this.tryLogin}>
-          <label>
-            Username:
-            <input name="username" placeholder="Username" type="text" onChange={this.formChange}/>
-          </label>
-          <br/>
-          <label>
-            Password:
-            <input name="password" placeholder="Password" type="password" onChange={this.formChange}/>
-          </label>
-          <input type="submit" value="Login"/>
-        </form>
-      );
-    } else {
-      return <br/>
+    formChange = (event) => {
+        const newState = {};
+        newState[event.target.name] = event.target.value;
+        this.setState(newState);
+    };
+
+    tryLogin = () => {
+        const request = new URLSearchParams();
+        request.append('username', this.state.username);
+        request.append('password', this.state.password);
+        api.post('/login', request)
+            .then(() => {
+                if (this.props.onLogin) {
+                    this.props.onLogin();
+                }
+            })
+            .catch((err) => {
+                console.log('Error:', err);
+            });
+        event.preventDefault();
+    };
+
+
+    render() {
+        return (
+            <form onSubmit={this.tryLogin}>
+                <label>
+                    Username:
+                    <input name="username" placeholder="Username" type="text" onChange={this.formChange}/>
+                </label>
+                <br/>
+                <label>
+                    Password:
+                    <input name="password" placeholder="Password" type="password" onChange={this.formChange}/>
+                </label>
+                <input type="submit" value="Login"/>
+            </form>
+        );
     }
-  }
 }

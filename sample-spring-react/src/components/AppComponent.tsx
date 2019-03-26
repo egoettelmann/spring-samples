@@ -13,7 +13,7 @@ interface AppState {
 
 export default class AppComponent extends React.Component<any, AppState> {
 
-    private timeoutHandle: number;
+    private errorTimeoutHandle: number;
 
     constructor(props) {
         super(props);
@@ -24,26 +24,29 @@ export default class AppComponent extends React.Component<any, AppState> {
         this.loadSession();
     }
 
-    onLoginChange = () => {
-        this.loadSession();
-    };
-
     render() {
+        // If session not loaded yet, we wait
         let content;
-        if (this.state.loaded && this.state.user) {
-            content = <MainComponent user={this.state.user} onChange={this.onLoginChange}/>;
-        } else if (this.state.loaded) {
-            content = <LoginComponent onChange={this.onLoginChange}/>;
+        if (!this.state.loaded) {
+            content = <br/>; // FIXME: should be a spinner
+        } else if (this.state.user) {
+            content = <MainComponent user={this.state.user} onLogout={this.logout} />;
         } else {
-            content = <br/>;
+            content = <LoginComponent onLogin={this.loadSession} />
         }
         return (
             <div>
                 <h1>Sample Spring React App</h1>
-                { content }
+                {content}
                 <ErrorComponent error={this.state.error}/>
             </div>
         );
+    };
+
+    private logout = () => {
+        this.setState({
+            user: undefined
+        });
     };
 
     private loadSession = () => {
@@ -52,8 +55,7 @@ export default class AppComponent extends React.Component<any, AppState> {
                 loaded: true,
                 user: response.data
             });
-        }, (error) => {
-            console.error(error);
+        }, () => {
             this.setState({
                 loaded: true,
                 user: undefined
@@ -64,21 +66,30 @@ export default class AppComponent extends React.Component<any, AppState> {
     private registerErrorHandler = () => {
         api.interceptors.response.use((response) => {
             return response;
-        }, (error) => {
-            this.setState({
-                error: error.response.data
-            });
-            if (this.timeoutHandle) {
-                clearTimeout(this.timeoutHandle);
-                this.timeoutHandle = undefined;
-            }
-            this.timeoutHandle = setTimeout(() => {
+        }, (error: IRestError) => {
+            if (error.code === 'A010') {
                 this.setState({
-                    error: undefined
+                    user: undefined
                 });
-            }, 2000);
-            return Promise.reject(error.response.data);
+            }
+            this.displayError(error);
+            return Promise.reject(error);
         });
+    };
+
+    private displayError = (error: IRestError) => {
+        this.setState({
+            error: error
+        });
+        if (this.errorTimeoutHandle) {
+            clearTimeout(this.errorTimeoutHandle);
+        }
+        setTimeout(() => {
+            this.setState({
+                error: undefined
+            });
+            this.errorTimeoutHandle = undefined;
+        }, 5000)
     };
 
 }
