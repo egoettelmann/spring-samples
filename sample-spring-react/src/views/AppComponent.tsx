@@ -36,7 +36,6 @@ export default class AppComponent extends React.Component<any, AppState> {
         }
         return (
             <div>
-                <h1>Sample Spring React App</h1>
                 {content}
                 <ErrorComponent error={this.state.error}/>
             </div>

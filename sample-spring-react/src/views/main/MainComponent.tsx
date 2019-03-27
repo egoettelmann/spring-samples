@@ -1,6 +1,10 @@
 import * as React from 'react';
 import { IAppUserDetails } from '../../../ts-gen/dtos';
 import api from '../../services/api';
+import ToolbarComponent from '../../components/ToolbarComponent';
+import { BrowserRouter, Link, Route } from 'react-router-dom';
+import Tab1Component from './Tab1Component';
+import Tab2Component from './Tab2Component';
 
 interface SampleProps {
     user?: IAppUserDetails;
@@ -9,11 +13,8 @@ interface SampleProps {
 
 export default class MainComponent extends React.Component<SampleProps, any> {
 
-    private readonly imgPath;
-
     constructor(props) {
         super(props);
-        this.imgPath = this.generateLogoPath();
     }
 
     logout = () => {
@@ -28,21 +29,28 @@ export default class MainComponent extends React.Component<SampleProps, any> {
             });
     };
 
-    generateLogoPath = () => {
-        const hash = Math.random().toString(36).slice(2);
-        return `https://robohash.org/${hash}.png`;
-    };
-
     render() {
         return (
             <div>
-                <h2>A Simple React Component with Typescript {this.props.user ? this.props.user.username : ''}</h2>
-                <div>
-                    <img src={this.imgPath} alt="Random image"/>
-                </div>
+                <ToolbarComponent user={this.props.user} onLogout={this.logout}/>
+                <h2>A Simple React Component with Typescript</h2>
                 <p>I am a component which shows a random image from RoboHash. For more info on RoboHash, please visit <a
                     href="https://robohash.org">https://robohash.org</a></p>
-                <button onClick={this.logout}>Logout</button>
+                <BrowserRouter>
+                    <div>
+                        <ul>
+                            <li>
+                                <Link to="/tab1">Tab 1</Link>
+                            </li>
+                            <li>
+                                <Link to="/tab2">Tab 2</Link>
+                            </li>
+                        </ul>
+                        <hr/>
+                        <Route exact path="/tab1" component={Tab1Component}/>
+                        <Route exact path="/tab2" component={Tab2Component}/>
+                    </div>
+                </BrowserRouter>
             </div>
         );
     }
