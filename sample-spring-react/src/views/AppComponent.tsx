@@ -1,8 +1,8 @@
 import * as React from 'react';
-import MainComponent from './MainComponent';
-import LoginComponent from './LoginComponent';
-import ErrorComponent from './ErrorComponent';
-import { IAppUserDetails, IRestError } from '@sample-spring-react/dtos';
+import MainComponent from './main/MainComponent';
+import LoginComponent from './login/LoginComponent';
+import ErrorComponent from '../components/ErrorComponent';
+import { IAppUserDetails, IRestError } from '../../ts-gen/dtos';
 import api from '../services/api';
 
 interface AppState {

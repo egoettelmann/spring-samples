@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { IAppUserDetails } from '@sample-spring-react/dtos';
-import api from '../services/api';
+import { IAppUserDetails } from '../../../ts-gen/dtos';
+import api from '../../services/api';
 
 interface SampleProps {
     user?: IAppUserDetails;
