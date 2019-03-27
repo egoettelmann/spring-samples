@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Dropdown, Icon, Image, Menu } from 'semantic-ui-react';
 import { IAppUserDetails } from '@sample-spring-react/dtos';
 
 interface ToolbarProps {
@@ -9,14 +10,6 @@ interface ToolbarProps {
 export default class ToolbarComponent extends React.Component<ToolbarProps, any> {
 
     imgPath: string;
-
-    style = {
-        margin: '0',
-        padding: '.5rem',
-        backgroundColor: '#c3c3c3',
-        display: 'flex',
-        justifyContent: 'space-between'
-    };
 
     constructor(props) {
         super(props);
@@ -32,16 +25,32 @@ export default class ToolbarComponent extends React.Component<ToolbarProps, any>
         return `https://robohash.org/${hash}.png?size=30x30`;
     };
 
+    avatar = () => {
+        return (
+            <span>
+                <Image avatar src={this.imgPath}/>
+            </span>
+        );
+    };
+
     render() {
         return (
-            <div style={ this.style }>
-                <div>Sample Spring-React App</div>
-                <div style={{ display: 'flex', alignItems: 'stretch' }}>
-                    <img style={{ backgroundColor: 'white', borderRadius: '50%' }} src={this.imgPath} alt="Avatar"/>
-                    <div>{ this.props.user.username }</div>
-                    <button onClick={this.logout}>Logout</button>
-                </div>
-            </div>
+            <Menu secondary attached='top'>
+                <Menu.Menu position='left'>
+                    <Menu.Item name='Sample Spring-React App'/>
+                </Menu.Menu>
+                <Menu.Menu position='right'>
+                    <Dropdown trigger={ this.avatar() } item simple icon={null}>
+                        <Dropdown.Menu>
+                            <Dropdown.Item>{this.props.user.username}</Dropdown.Item>
+                            <Dropdown.Item onClick={this.logout}>
+                                <Icon name='sign-out' />
+                                <span className='text'>Logout</span>
+                            </Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
+                </Menu.Menu>
+            </Menu>
         );
     }
 

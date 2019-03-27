@@ -8,7 +8,7 @@ interface ErrorProps {
 export default class ErrorComponent extends React.Component<ErrorProps, any> {
 
     style = {
-        marginTop: '1rem',
+        margin: '1rem',
         padding: '.5rem',
         color: '#721c24',
         backgroundColor: '#f8d7da',

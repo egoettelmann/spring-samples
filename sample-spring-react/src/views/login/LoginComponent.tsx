@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Button, Form, Segment } from 'semantic-ui-react';
 import api from '../../services/api';
 
 interface LoginProps {
@@ -45,18 +46,27 @@ export default class LoginComponent extends React.Component<LoginProps, LoginSta
 
     render() {
         return (
-            <form onSubmit={this.tryLogin}>
-                <label>
-                    Username:
-                    <input name="username" placeholder="Username" type="text" onChange={this.formChange}/>
-                </label>
-                <br/>
-                <label>
-                    Password:
-                    <input name="password" placeholder="Password" type="password" onChange={this.formChange}/>
-                </label>
-                <input type="submit" value="Login"/>
-            </form>
+            <Form onSubmit={this.tryLogin} style={{ maxWidth: '450px', margin: 'auto', marginTop: '50px' }}>
+                <Form size='large'>
+                    <Segment>
+                        <Form.Input fluid icon='user'
+                                    iconPosition='left'
+                                    placeholder='Username'
+                                    type='text'
+                                    name='username'
+                                    onChange={this.formChange}
+                        />
+                        <Form.Input fluid icon='lock'
+                                    iconPosition='left'
+                                    placeholder='Password'
+                                    type='password'
+                                    name='password'
+                                    onChange={this.formChange}
+                        />
+                        <Button fluid size='large' type='submit'>Login</Button>
+                    </Segment>
+                </Form>
+            </Form>
         );
     }
 }
