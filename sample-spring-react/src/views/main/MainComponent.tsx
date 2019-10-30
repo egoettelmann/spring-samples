@@ -43,12 +43,8 @@ export default class MainComponent extends React.Component<MainProps, any> {
                     <BrowserRouter>
                         <div>
                             <Menu pointing secondary>
-                                <Menu.Item name='tab1'>
-                                    <Link to="/tab1">Tab 1</Link>
-                                </Menu.Item>
-                                <Menu.Item name='tab2'>
-                                    <Link to="/tab2">Tab 2</Link>
-                                </Menu.Item>
+                              <MenuLink to='/tab1' label='Tab 1' activeOnlyWhenExact={true} />
+                              <MenuLink to='/tab2' label='Tab 2' activeOnlyWhenExact={true} />
                             </Menu>
                             <Route exact path="/tab1" component={Tab1Component}/>
                             <Route exact path="/tab2" component={Tab2Component}/>
@@ -58,4 +54,18 @@ export default class MainComponent extends React.Component<MainProps, any> {
             </div>
         );
     }
+}
+
+function MenuLink({ label, to, activeOnlyWhenExact }) {
+  return (
+    <Route
+      path={to}
+      exact={activeOnlyWhenExact}
+      children={({ match }) => (
+        <Menu.Item active={!!match}>
+          <Link to={to}>{ label }</Link>
+        </Menu.Item>
+      )}
+    />
+  );
 }
