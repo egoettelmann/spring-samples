@@ -1,0 +1,9 @@
+type TestModel {
+    id: Int
+    testField1: String
+    testField2: String
+}
+
+type Query {
+    getTestModel(count: Int, offset: Int): [TestModel]
+}
