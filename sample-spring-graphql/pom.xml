@@ -43,4 +43,26 @@
         </dependency>
     </dependencies>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>io.github.kobylynskyi</groupId>
+                <artifactId>graphql-codegen-maven-plugin</artifactId>
+                <version>1.2.3</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <graphqlSchemaPaths>${project.basedir}/src/main/resources/schemas/schema.graphqls</graphqlSchemaPaths>
+                            <outputDir>${project.build.directory}/generated-sources/graphql</outputDir>
+                            <packageName>lu.elio.sample.spring.graphql.generated</packageName>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>

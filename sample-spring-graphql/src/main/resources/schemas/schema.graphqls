@@ -5,5 +5,6 @@ type TestModel {
 }
 
 type Query {
-    getTestModel(count: Int, offset: Int): [TestModel]
+    getTestModels(count: Int, offset: Int): [TestModel],
+    getTestModel(index: Int): TestModel
 }
