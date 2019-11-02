@@ -18,6 +18,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler;
+import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import javax.servlet.ServletException;
@@ -43,14 +44,28 @@ public class RestSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     private HandlerExceptionResolver exceptionResolver;
 
+    /**
+     * The CSRF config
+     */
+    private CsrfConfig csrfConfig;
+
+    /**
+     * Instantiates the Rest Security Config.
+     *
+     * @param authenticationProvider the authentication provider
+     * @param exceptionResolver the exception resolver
+     * @param csrfConfig the CSRF config
+     */
     @Autowired
     public RestSecurityConfig(
             final AuthenticationProvider authenticationProvider,
-            @Qualifier("handlerExceptionResolver") final HandlerExceptionResolver exceptionResolver
+            @Qualifier("handlerExceptionResolver") final HandlerExceptionResolver exceptionResolver,
+            CsrfConfig csrfConfig
     ) {
         super();
         this.authenticationProvider = authenticationProvider;
         this.exceptionResolver = exceptionResolver;
+        this.csrfConfig = csrfConfig;
     }
 
     /**
@@ -87,8 +102,11 @@ public class RestSecurityConfig extends WebSecurityConfigurerAdapter {
         // Enabling CORS
         http.cors();
 
-        // Disabling CSRF
-        http.csrf().disable();
+        // Configuring CSRF
+        http.csrf()
+                .csrfTokenRepository(csrfConfig.csrfTokenRepository())
+                .and()
+                .addFilterAfter(csrfConfig.csrfResponseHeaderFilter(), CsrfFilter.class);
     }
 
     /**
